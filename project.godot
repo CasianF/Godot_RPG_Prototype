@@ -1,0 +1,31 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="RPG_Prototype"
+run/main_scene="res://Scenes/Player.tscn"
+config/features=PackedStringArray("4.2", "Forward Plus")
+
+[display]
+
+window/stretch/scale=3.95
+
+[file_customization]
+
+folder_colors={
+"res://Scenes/": "blue",
+"res://Scripts/": "yellow",
+"res://Sprites/": "red"
+}
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
