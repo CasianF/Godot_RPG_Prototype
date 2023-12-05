@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=3 uid="uid://fosprt4ajl1j"]
+[gd_scene load_steps=57 format=3 uid="uid://fosprt4ajl1j"]
 
 [ext_resource type="Script" path="res://Scripts/Player.gd" id="1_hltok"]
 [ext_resource type="Texture2D" uid="uid://dcsrl76p03a8" path="res://Sprites/characters/player.png" id="2_xvon0"]
@@ -417,18 +417,47 @@ animations = [{
 radius = 4.0
 height = 8.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_ulyyu"]
+radius = 13.0
+
 [node name="Player" type="CharacterBody2D"]
 y_sort_enabled = true
+collision_layer = 3
+up_direction = Vector2(0, 1)
 script = ExtResource("1_hltok")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(-1, -15)
 sprite_frames = SubResource("SpriteFrames_gc84l")
 animation = &"front_idle"
-frame = 2
-frame_progress = 0.00160135
-offset = Vector2(0, -15.005)
+offset = Vector2(0, -14.61)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-1, -16)
+position = Vector2(0, -3)
 shape = SubResource("CapsuleShape2D_0au3c")
+
+[node name="Hitbox" type="Area2D" parent="."]
+
+[node name="PlayerHitbox" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, -7)
+shape = SubResource("CircleShape2D_ulyyu")
+
+[node name="attack_cooldown" type="Timer" parent="."]
+wait_time = 0.539
+
+[node name="deal_attack_timer" type="Timer" parent="."]
+wait_time = 0.539
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(-30, -23)
+zoom = Vector2(4, 4)
+limit_left = 1
+limit_top = 0
+limit_right = 385
+limit_bottom = 208
+limit_smoothed = true
+rotation_smoothing_enabled = true
+
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]
+[connection signal="body_exited" from="Hitbox" to="." method="_on_hitbox_body_exited"]
+[connection signal="timeout" from="attack_cooldown" to="." method="_on_attack_cooldown_timeout"]
+[connection signal="timeout" from="deal_attack_timer" to="." method="_on_deal_attack_timer_timeout"]
