@@ -442,12 +442,12 @@ position = Vector2(0, -7)
 shape = SubResource("CircleShape2D_ulyyu")
 
 [node name="attack_cooldown" type="Timer" parent="."]
-wait_time = 0.539
+wait_time = 1.001
 
 [node name="deal_attack_timer" type="Timer" parent="."]
 wait_time = 0.539
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="WorldCamera" type="Camera2D" parent="."]
 position = Vector2(-30, -23)
 zoom = Vector2(4, 4)
 limit_left = 1
@@ -456,6 +456,14 @@ limit_right = 385
 limit_bottom = 208
 limit_smoothed = true
 rotation_smoothing_enabled = true
+
+[node name="CliffCamera" type="Camera2D" parent="."]
+zoom = Vector2(4, 4)
+limit_left = 144
+limit_top = 56
+limit_right = 414
+limit_bottom = 272
+limit_smoothed = true
 
 [connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]
 [connection signal="body_exited" from="Hitbox" to="." method="_on_hitbox_body_exited"]
