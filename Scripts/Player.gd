@@ -12,15 +12,12 @@ var alive = true
 
 var attack_ip = false 
 
-
 func _physics_process(delta):
 	attack()
 	player_movement(delta)
 	enemy_attack()
-	if health <= 0:
-		queue_free()
-	
-	
+	current_camera()
+
 func player_movement(delta):
 	if Input.is_action_pressed("ui_right"):
 		current_dir = "right"
@@ -83,7 +80,6 @@ func play_anim(movement, dir):
 			if attack_ip == false:
 				anim.play("back_idle")
 
-
 func _on_hitbox_body_entered(body):
 	if body.has_method("enemy"):
 		enemy_in_range = true
@@ -98,6 +94,8 @@ func enemy_attack():
 		enemy_attack_cd = false
 		$attack_cooldown.start()
 		print(health)
+		if health <= 0:
+			queue_free()
 	
 func player():
 	pass
@@ -129,11 +127,15 @@ func attack():
 			$deal_attack_timer.start()
 		Global.player_current_attack = true
 
-
-
 func _on_deal_attack_timer_timeout():
 	$deal_attack_timer.stop()
 	Global.player_current_attack = false
 	attack_ip = false
 
-
+func current_camera():
+	if Global.current_scene == "world":
+		$WorldCamera.enabled = true
+		$CliffCamera.enabled = false
+	elif Global.current_scene == "cliff_side":
+		$WorldCamera.enabled = false
+		$CliffCamera.enabled = true

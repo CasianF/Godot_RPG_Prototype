@@ -1,5 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://b8t0u8bajikvx"]
+[gd_scene load_steps=12 format=3 uid="uid://b8t0u8bajikvx"]
 
+[ext_resource type="Script" path="res://Scripts/world.gd" id="1_jfahy"]
 [ext_resource type="Texture2D" uid="uid://drjsqdb4fx3fh" path="res://Sprites/tilesets/plains.png" id="1_ju3eg"]
 [ext_resource type="Texture2D" uid="uid://e4had46ycir7" path="res://Sprites/tilesets/grass.png" id="2_e66c3"]
 [ext_resource type="Texture2D" uid="uid://bf75liirt2vsd" path="res://Sprites/objects/objects.png" id="3_tspfp"]
@@ -211,9 +212,13 @@ sources/0 = SubResource("TileSetAtlasSource_yt4yv")
 sources/1 = SubResource("TileSetAtlasSource_fnj4v")
 sources/2 = SubResource("TileSetAtlasSource_2l3k5")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sdglp"]
+size = Vector2(35, 16)
+
 [node name="World" type="Node2D"]
 y_sort_enabled = true
 position = Vector2(-1, 0)
+script = ExtResource("1_jfahy")
 
 [node name="TileMap" type="TileMap" parent="."]
 y_sort_enabled = true
@@ -234,3 +239,25 @@ position = Vector2(266, 120)
 
 [node name="Player" parent="." instance=ExtResource("4_feuq3")]
 position = Vector2(75, 85)
+
+[node name="Camera2D2" type="Camera2D" parent="Player"]
+position = Vector2(-75, -85)
+zoom = Vector2(3, 3)
+limit_left = 0
+limit_top = 0
+limit_right = 385
+limit_bottom = 208
+
+[node name="Border" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Border"]
+polygon = PackedVector2Array(4, 0, 225, 0, 225, -22, 260, -22, 260, 0, 387, 0, 387, 209, 2, 208, 3, 0, -8, -24, -26, -31, -45, 13, -53, 64, -55, 127, -48, 183, -30, 236, 19, 271, 88, 286, 160, 292, 215, 295, 277, 294, 358, 280, 400, 260, 428, 235, 456, 174, 470, 101, 471, 69, 468, 51, 464, 12, 446, -27, 430, -47, 385, -65, 317, -79, 106, -76, 44, -69, 14, -67, -12, -63)
+
+[node name="Cliff_switch_point" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Cliff_switch_point"]
+position = Vector2(242.5, -14)
+shape = SubResource("RectangleShape2D_sdglp")
+
+[connection signal="body_entered" from="Cliff_switch_point" to="." method="_on_cliff_switch_point_body_entered"]
+[connection signal="body_exited" from="Cliff_switch_point" to="." method="_on_cliff_switch_point_body_exited"]
